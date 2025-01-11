@@ -53,12 +53,6 @@ app.get("/", (req: Request, res: Response) => {
         cronStatus.status === "stopped"
           ? `🔴 ${cronStatus.status}`
           : `🟢 ${cronStatus.status}`,
-      lastRun: cronStatus.lastRun
-        ? `📅 ${cronStatus.lastRun.toISOString()}`
-        : "❌ Not yet executed",
-      nextRun: cronStatus.nextRun
-        ? `📅 ${cronStatus.nextRun.toISOString()}`
-        : "❌ Not scheduled",
       error: cronStatus.error ? `⚠️ ${cronStatus.error}` : "✅ No errors",
       note: "⚠️ Cron job stops after 16th January 2025 due to billing constraints.",
     },
