@@ -2,6 +2,7 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import { SERVER_CONFIG } from "./config/constants";
 import connectDB from "./config/database";
+import coinIDRouter from "./router/coinIDRouter";
 import { cronStatus } from "./services/cronStatus";
 
 const app = express();
@@ -62,6 +63,8 @@ app.get("/", (req: Request, res: Response) => {
     serverUpTime: `${process.uptime().toFixed(2)} seconds`,
   });
 });
+
+app.use("/stats", coinIDRouter);
 
 app.get("/health", (req: Request, res: Response) => {
   res.json({

@@ -15,8 +15,10 @@ if (!COINGECKO_KEY) {
   throw new Error(`COINGECKO KEY is missing in ${envFile}`);
 }
 
-export const fetchCryptoCoins = async (): Promise<CryptoCoinTypes[]> => {
-  const coinsToFetch = Object.values(COINS).join("%2C");
+export const fetchCryptoCoins = async (
+  coin?: string
+): Promise<{ [key: string]: CryptoCoinTypes }> => {
+  const coinsToFetch = coin ? coin : Object.values(COINS).join("%2C");
 
   const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SIMPLE_PRICE}?ids=${coinsToFetch}&vs_currencies=${COIN_CURRENCY.currency}&include_market_cap=true&include_24hr_change=true`;
 
@@ -38,6 +40,8 @@ export const fetchCryptoCoins = async (): Promise<CryptoCoinTypes[]> => {
     }
 
     const data = await response.json();
+
+    console.log(data);
     console.log(`Successfully fetched crypto coin data ${new Date()}`);
 
     return data;
