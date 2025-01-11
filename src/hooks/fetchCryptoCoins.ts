@@ -15,10 +15,6 @@ if (!COINGECKO_KEY) {
   throw new Error(`COINGECKO KEY is missing in ${envFile}`);
 }
 
-if (!API_CONFIG.BASE_URL) {
-  throw new Error(`COINGECKO API is missing in ${envFile}`);
-}
-
 export const fetchCryptoCoins = async (
   coin?: string
 ): Promise<{ [key: string]: CryptoCoinTypes }> => {
