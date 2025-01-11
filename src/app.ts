@@ -2,8 +2,10 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import { SERVER_CONFIG } from "./config/constants";
 import connectDB from "./config/database";
-import coinIDRouter from "./router/coinIDRouter";
+import coinIDRouter from "./router/coinStatsRouter";
 import { cronStatus } from "./services/cronStatus";
+import coinStatsRouter from "./router/coinStatsRouter";
+import deviationRouter from "./router/deviationRouter";
 
 const app = express();
 app.use(express.json());
@@ -64,7 +66,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/stats", coinIDRouter);
+app.use("/stats", coinStatsRouter);
+app.use("/deviation", deviationRouter);
 
 app.get("/health", (req: Request, res: Response) => {
   res.json({

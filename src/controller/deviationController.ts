@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { fetchCryptoCoins } from "../hooks/fetchCryptoCoins";
 import { COINS } from "../config/constants";
+import { fetchLatestCryptoPriceRecords } from "../hooks/fetchDeviation";
+import { calculateStandardDeviation } from "../utils/standardDeviation";
 
-export const fetchCryptoDetails = async (
+export const fetchDeviationCryptoDetails = async (
   req: Request,
   res: Response
 ): Promise<void> => {
@@ -21,23 +22,13 @@ export const fetchCryptoDetails = async (
     });
     return;
   }
-
   try {
-    const cryptoDetails = await fetchCryptoCoins(coin);
+    const cryptoDetails = await fetchLatestCryptoPriceRecords(coin);
 
-    if (!cryptoDetails[coin]) {
-      res.status(404).json({
-        message: "Crypto details not found",
-      });
-      return;
-    }
-
-    const { usd, usd_market_cap, usd_24h_change } = cryptoDetails[coin];
+    const standardDeviation = calculateStandardDeviation(cryptoDetails);
 
     res.status(200).json({
-      price: usd,
-      marketCap: usd_market_cap,
-      "24hChange": usd_24h_change,
+      deviation: standardDeviation,
     });
   } catch (error) {
     res.status(500).json({
@@ -45,5 +36,3 @@ export const fetchCryptoDetails = async (
     });
   }
 };
-
-export const fetchDeviationCryptoDetails = async () => {};

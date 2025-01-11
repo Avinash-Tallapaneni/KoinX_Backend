@@ -45,5 +45,3 @@ export const fetchCryptoDetails = async (
     });
   }
 };
-
-export const fetchDeviationCryptoDetails = async () => {};
